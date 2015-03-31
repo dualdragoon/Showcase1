@@ -120,6 +120,11 @@ namespace Showcase
 
                 // update our level, passing down the GameTime along with all of our input states
                 level.Update(gameTime, keyboardState, gamePadState, Window.CurrentOrientation);
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    Environment.Exit(1);
+                }
             }
 
             base.Update(gameTime);
