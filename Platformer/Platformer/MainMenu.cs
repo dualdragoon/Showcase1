@@ -16,35 +16,30 @@ namespace Showcase
     {
         int menuOption = 0;
 
-        Texture2D playButton;
         Texture2D playButtonUnPressed;
         Texture2D playButtonHovered;
-        Rectangle playButtonCollision;
+
+        MenuButton playButton;
 
         public void LoadContent(ContentManager Content)
         {
-            playButtonUnPressed = Content.Load<Texture2D>(@"Menu Buttons/playButtonUnPressed");
-            playButtonHovered = Content.Load<Texture2D>(@"Menu Buttons/playButtonHovered");
+            playButtonUnPressed = Content.Load<Texture2D>(@"Menu Buttons/play Button Un-Pressed");
+            playButtonHovered = Content.Load<Texture2D>(@"Menu Buttons/play Button Hovered");
         }
 
         public void Update(GameTime gameTime)
         {
-            playButtonCollision = new Rectangle(325, 200, 150, 90);
-
             MouseState mouse = Mouse.GetState();
 
-            if (playButtonCollision.Contains(mouse.X, mouse.Y))
-            {
-                playButton = playButtonHovered;
-                if (mouse.LeftButton == ButtonState.Pressed)
-                {
-                    menuOption = 1;
-                } 
-            }
+            playButton = new MenuButton(325, 200, 150, 90, 1, mouse, playButtonUnPressed, playButtonHovered);
 
-            if (!playButtonCollision.Contains(mouse.X, mouse.Y))
+            if (playButton.getButtonState())
             {
-                playButton = playButtonUnPressed;
+                menuOption = playButton.getButtonNum();
+            }
+            else
+            {
+                menuOption = 0;
             }
         }
 
@@ -64,7 +59,59 @@ namespace Showcase
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(playButton, playButtonCollision, Color.White);
+            spriteBatch.Draw(playButton.getTexture(), playButton.getRectangle(), Color.White);
+        }
+    }
+
+    class MenuButton
+    {
+        bool buttonState;
+        int bNum;
+        Rectangle collision;
+        MouseState mouseState;
+        Texture2D button0, button1, button2;
+
+        public MenuButton(int x, int y, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
+        {
+            collision = new Rectangle(x, y, width, height);
+            mouseState = mouse;
+            button1 = buttonNorm;
+            button2 = buttonHov;
+            bNum = buttonNum;
+        }
+
+        public bool getButtonState()
+        {
+            if (collision.Contains(mouseState.X, mouseState.Y))
+            {
+                button0 = button2;
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    buttonState = true;
+                }
+            }
+            else
+            {
+                button0 = button1;
+                buttonState = false;
+            }
+
+            return buttonState;
+        }
+
+        public int getButtonNum()
+        {
+            return bNum;
+        }
+
+        public Rectangle getRectangle()
+        {
+            return collision;
+        }
+
+        public Texture2D getTexture()
+        {
+            return button0;
         }
     }
 }

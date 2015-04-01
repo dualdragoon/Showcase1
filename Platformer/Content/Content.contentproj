@@ -315,15 +315,27 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\playButtonUnPressed.png">
-      <Name>playButtonUnPressed</Name>
+    <Compile Include="Menu Buttons\play Button Un-Pressed.png">
+      <Name>play Button Un-Pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\playButtonHovered.png">
-      <Name>playButtonHovered</Name>
+    <Compile Include="Menu Buttons\play Button Hovered.png">
+      <Name>play Button Hovered</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu Buttons\Exit Button Hovered.png">
+      <Name>Exit Button Hovered</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Menu Buttons\Exit Button Un-Pressed.png">
+      <Name>Exit Button Un-Pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

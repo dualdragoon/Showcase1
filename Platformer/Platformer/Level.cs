@@ -550,7 +550,7 @@ namespace Showcase
                     {
                         // Draw it in screen space.
                         Vector2 position = new Vector2(x, y) * Tile.Size;
-                        spriteBatch.Draw(texture, position, Color.White);
+                        spriteBatch.Draw(texture, position, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0);
                     }
                 }
             }

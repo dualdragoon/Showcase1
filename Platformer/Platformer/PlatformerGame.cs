@@ -54,6 +54,8 @@ namespace Showcase
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             this.Window.Title = "Showcase";
+            graphics.PreferredBackBufferWidth = 1000;
+            graphics.PreferredBackBufferHeight = 600;
         }
 
         /// <summary>
