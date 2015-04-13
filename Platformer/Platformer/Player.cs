@@ -18,7 +18,7 @@ namespace Showcase
         private AnimationPlayer sprite;
 
         // Sounds
-        private SoundEffect killedSound, jumpSound, fallSound, attackSound;
+        private SoundEffect killedSound, jumpSound, fallSound, attackSound, missSound;
 
         public Level Level
         {
@@ -137,6 +137,7 @@ namespace Showcase
             jumpSound = Level.Content.Load<SoundEffect>("Sounds/PlayerJump");
             fallSound = Level.Content.Load<SoundEffect>("Sounds/PlayerFall");
             attackSound = Level.Content.Load<SoundEffect>("Sounds/PlayerAttackHit");
+            missSound = level.Content.Load<SoundEffect>("Sounds/PlayerAttackMiss");
         }
 
         /// <summary>
