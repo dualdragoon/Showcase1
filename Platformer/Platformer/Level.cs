@@ -463,9 +463,17 @@ namespace Showcase
                 enemy.Update(gameTime);
 
                 // Touching an enemy instantly kills the player
-                if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle))
+                if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && !Player.IsAttacking)
                 {
                     OnPlayerKilled(enemy);
+                }
+                else if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
+                {
+                    OnPlayerAttack(enemy);
+                }
+                else if (!enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
+                {
+                    OnPlayerAttack(null);
                 }
             }
         }
@@ -492,6 +500,11 @@ namespace Showcase
         private void OnPlayerKilled(Enemy killedBy)
         {
             Player.OnKilled(killedBy);
+        }
+
+        private void OnPlayerAttack(Enemy hit)
+        {
+            Player.OnAttack(hit);
         }
 
         /// <summary>

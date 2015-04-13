@@ -13,18 +13,12 @@ namespace Showcase
     class Player
     {
         // Animations
-        private Animation idleAnimation;
-        private Animation runAnimation;
-        private Animation jumpAnimation;
-        private Animation celebrateAnimation;
-        private Animation dieAnimation;
+        private Animation idleAnimation, runAnimation, jumpAnimation, celebrateAnimation, dieAnimation;
         private SpriteEffects flip = SpriteEffects.None;
         private AnimationPlayer sprite;
 
         // Sounds
-        private SoundEffect killedSound;
-        private SoundEffect jumpSound;
-        private SoundEffect fallSound;
+        private SoundEffect killedSound, jumpSound, fallSound;
 
         public Level Level
         {
@@ -56,21 +50,14 @@ namespace Showcase
         Vector2 velocity;
 
         // Constants for controlling horizontal movement
-        private const float MoveAcceleration = 13000.0f;
-        private const float MaxMoveSpeed = 1750.0f;
-        private const float GroundDragFactor = 0.48f;
-        private const float AirDragFactor = 0.58f;
+        private const float MoveAcceleration = 13000.0f, MaxMoveSpeed = 1750.0f, GroundDragFactor = 0.48f, AirDragFactor = 0.58f;
 
         // Constants for controlling vertical movement
-        private const float MaxJumpTime = 0.35f;
-        private const float JumpLaunchVelocity = -3500.0f;
-        private const float GravityAcceleration = 3400.0f;
-        private const float MaxFallSpeed = 550.0f;
-        private const float JumpControlPower = 0.14f; 
+        private const float MaxJumpTime = 0.35f, JumpLaunchVelocity = -3500.0f, GravityAcceleration = 3400.0f, MaxFallSpeed = 550.0f, JumpControlPower = 0.14f; 
 
         // Input configuration
         private const float MoveStickScale = 1.0f;
-        private const Buttons JumpButton = Buttons.A;
+        private const Buttons JumpButton = Buttons.A, AttackButton = Buttons.B;
 
         /// <summary>
         /// Gets whether or not the player's feet are on the ground.
@@ -81,14 +68,19 @@ namespace Showcase
         }
         bool isOnGround;
 
+        public bool IsAttacking
+        {
+            get { return isAttacking; }
+        }
+        bool isAttacking;
+
         /// <summary>
         /// Current user movement input.
         /// </summary>
         private float movement;
 
         // Jumping state
-        private bool isJumping;
-        private bool wasJumping;
+        private bool isJumping, wasJumping;
         private float jumpTime;
 
         private Rectangle localBounds;
@@ -188,6 +180,7 @@ namespace Showcase
             // Clear input.
             movement = 0.0f;
             isJumping = false;
+            isAttacking = false;
         }
 
         /// <summary>
@@ -207,12 +200,14 @@ namespace Showcase
 
             // If any digital horizontal movement input is found, override the analog movement.
             if (gamePadState.IsButtonDown(Buttons.DPadLeft) ||
+                gamePadState.ThumbSticks.Left.X < 0 ||
                 keyboardState.IsKeyDown(Keys.Left) ||
                 keyboardState.IsKeyDown(Keys.A))
             {
                 movement = -1.0f;
             }
             else if (gamePadState.IsButtonDown(Buttons.DPadRight) ||
+                     gamePadState.ThumbSticks.Left.X > 0 ||
                      keyboardState.IsKeyDown(Keys.Right) ||
                      keyboardState.IsKeyDown(Keys.D))
             {
@@ -225,6 +220,10 @@ namespace Showcase
                 keyboardState.IsKeyDown(Keys.Space) ||
                 keyboardState.IsKeyDown(Keys.Up) ||
                 keyboardState.IsKeyDown(Keys.W);
+
+            isAttacking =
+                gamePadState.IsButtonDown(AttackButton) ||
+                keyboardState.IsKeyDown(Keys.E);
         }
 
         /// <summary>
@@ -388,6 +387,18 @@ namespace Showcase
 
             // Save the new bounds bottom.
             previousBottom = bounds.Bottom;
+        }
+
+        public void OnAttack(Enemy hit)
+        {
+            isAttacking = true;
+
+            /*if (hit != null)
+                hitSound.Play();
+            else
+                missSound.Play();*/
+
+            //sprite.PlayAnimation(attackAnimation);
         }
 
         /// <summary>
