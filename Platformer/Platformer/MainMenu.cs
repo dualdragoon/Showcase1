@@ -16,26 +16,33 @@ namespace Showcase
     {
         int menuOption = 0;
 
-        Texture2D playButtonUnPressed;
-        Texture2D playButtonHovered;
+        Texture2D title, playButtonUnPressed, playButtonHovered, exitButtonUnpressed, exitButtonHovered;
 
-        MenuButton playButton;
+        MenuButton playButton, exitButton;
 
         public void LoadContent(ContentManager Content)
         {
-            playButtonUnPressed = Content.Load<Texture2D>(@"Menu Buttons/play Button Un-Pressed");
-            playButtonHovered = Content.Load<Texture2D>(@"Menu Buttons/play Button Hovered");
+            title = Content.Load<Texture2D>(@"Menu Buttons/Title");
+            playButtonUnPressed = Content.Load<Texture2D>(@"Menu Buttons/Play Button Un-Pressed");
+            playButtonHovered = Content.Load<Texture2D>(@"Menu Buttons/Play Button Hovered");
+            exitButtonUnpressed = Content.Load<Texture2D>(@"Menu Buttons/Exit Button Un-Pressed");
+            exitButtonHovered = Content.Load<Texture2D>(@"Menu Buttons/Exit Button Hovered");
         }
 
         public void Update(GameTime gameTime)
         {
             MouseState mouse = Mouse.GetState();
 
-            playButton = new MenuButton(325, 200, 150, 90, 1, mouse, playButtonUnPressed, playButtonHovered);
+            playButton = new MenuButton(415, 255, 150, 90, 1, mouse, playButtonUnPressed, playButtonHovered);
+            exitButton = new MenuButton(415, 380, 150, 90, 2, mouse, exitButtonUnpressed, exitButtonHovered);
 
             if (playButton.getButtonState())
             {
                 menuOption = playButton.getButtonNum();
+            }
+            else if (exitButton.getButtonState())
+            {
+                menuOption = exitButton.getButtonNum();
             }
             else
             {
@@ -51,6 +58,10 @@ namespace Showcase
                     //Playing
                     return 1;
 
+                case 2:
+                    //Exit
+                    return 2;
+
                 default:
                     //Nothing is happening
                     return 0;
@@ -59,7 +70,9 @@ namespace Showcase
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(title, new Vector2(250, 50), Color.White);
             spriteBatch.Draw(playButton.getTexture(), playButton.getRectangle(), Color.White);
+            spriteBatch.Draw(exitButton.getTexture(), exitButton.getRectangle(), Color.White);
         }
     }
 

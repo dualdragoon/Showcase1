@@ -44,7 +44,7 @@ namespace Showcase
         // levels in our content are 0-based and that all numbers under this constant
         // have a level file present. This allows us to not need to check for the file
         // or handle exceptions, both of which can add unnecessary time to level loading.
-        private const int numberOfLevels = 3;
+        private const int numberOfLevels = 4;
 
         enum GameStates { MainMenu, Playing };
         GameStates gameState = GameStates.MainMenu;
@@ -106,6 +106,10 @@ namespace Showcase
                 {
                     case 1:
                         gameState = GameStates.Playing;
+                        break;
+
+                    case 2:
+                        Environment.Exit(1);
                         break;
 
                     default:

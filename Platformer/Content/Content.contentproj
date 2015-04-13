@@ -178,6 +178,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <None Include="Levels\3.dat">
+      <Name>3</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Levels\1.dat">
@@ -315,15 +319,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\play Button Un-Pressed.png">
-      <Name>play Button Un-Pressed</Name>
+    <Compile Include="Menu Buttons\Play Button Un-Pressed.png">
+      <Name>Play Button Un-Pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\play Button Hovered.png">
-      <Name>play Button Hovered</Name>
+    <Compile Include="Menu Buttons\Play Button Hovered.png">
+      <Name>Play Button Hovered</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -336,6 +340,13 @@
     </Compile>
     <Compile Include="Menu Buttons\Exit Button Un-Pressed.png">
       <Name>Exit Button Un-Pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu Buttons\Title.png">
+      <Name>Title</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

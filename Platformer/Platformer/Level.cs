@@ -109,6 +109,10 @@ namespace Showcase
             {
                 // Choose a random segment if each background layer for level variety.
                 int segmentIndex = levelIndex;
+                if (segmentIndex > 2)
+                {
+                    segmentIndex = 0;
+                }
                 layers[i] = Content.Load<Texture2D>("Backgrounds/Layer" + i + "_" + segmentIndex);
             }
 
