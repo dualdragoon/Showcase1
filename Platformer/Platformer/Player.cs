@@ -18,7 +18,7 @@ namespace Showcase
         private AnimationPlayer sprite;
 
         // Sounds
-        private SoundEffect killedSound, jumpSound, fallSound;
+        private SoundEffect killedSound, jumpSound, fallSound, attackSound;
 
         public Level Level
         {
@@ -68,6 +68,9 @@ namespace Showcase
         }
         bool isOnGround;
 
+        /// <summary>
+        /// Gets whether or not the player is attacking.
+        /// </summary>
         public bool IsAttacking
         {
             get { return isAttacking; }
@@ -133,6 +136,7 @@ namespace Showcase
             killedSound = Level.Content.Load<SoundEffect>("Sounds/PlayerKilled");
             jumpSound = Level.Content.Load<SoundEffect>("Sounds/PlayerJump");
             fallSound = Level.Content.Load<SoundEffect>("Sounds/PlayerFall");
+            attackSound = Level.Content.Load<SoundEffect>("Sounds/PlayerAttackHit");
         }
 
         /// <summary>
@@ -200,14 +204,12 @@ namespace Showcase
 
             // If any digital horizontal movement input is found, override the analog movement.
             if (gamePadState.IsButtonDown(Buttons.DPadLeft) ||
-                gamePadState.ThumbSticks.Left.X < 0 ||
                 keyboardState.IsKeyDown(Keys.Left) ||
                 keyboardState.IsKeyDown(Keys.A))
             {
                 movement = -1.0f;
             }
             else if (gamePadState.IsButtonDown(Buttons.DPadRight) ||
-                     gamePadState.ThumbSticks.Left.X > 0 ||
                      keyboardState.IsKeyDown(Keys.Right) ||
                      keyboardState.IsKeyDown(Keys.D))
             {
@@ -221,6 +223,7 @@ namespace Showcase
                 keyboardState.IsKeyDown(Keys.Up) ||
                 keyboardState.IsKeyDown(Keys.W);
 
+            // Check if the player wants to attack.
             isAttacking =
                 gamePadState.IsButtonDown(AttackButton) ||
                 keyboardState.IsKeyDown(Keys.E);
@@ -389,16 +392,20 @@ namespace Showcase
             previousBottom = bounds.Bottom;
         }
 
+        /// <summary>
+        /// Called when the player attacks.
+        /// </summary>
+        /// <param name="hit">
+        /// The enemy hit by the player. This parameter is null if player hit nothing.
+        /// </param>
         public void OnAttack(Enemy hit)
         {
-            isAttacking = true;
-
             /*if (hit != null)
-                hitSound.Play();
+                attackSound.Play();
             else
                 missSound.Play();*/
 
-            //sprite.PlayAnimation(attackAnimation);
+            sprite.PlayAnimation(celebrateAnimation);
         }
 
         /// <summary>

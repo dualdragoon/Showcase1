@@ -467,11 +467,13 @@ namespace Showcase
                 {
                     OnPlayerKilled(enemy);
                 }
-                else if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
+
+                if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
                 {
                     OnPlayerAttack(enemy);
                 }
-                else if (!enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
+                
+                if (!enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
                 {
                     OnPlayerAttack(null);
                 }
@@ -502,6 +504,12 @@ namespace Showcase
             Player.OnKilled(killedBy);
         }
 
+        /// <summary>
+        /// Called when the player attacks.
+        /// </summary>
+        /// <param name="hit">
+        /// The enemy hit by the player. This is null if player hit nothing.
+        /// </param>
         private void OnPlayerAttack(Enemy hit)
         {
             Player.OnAttack(hit);
