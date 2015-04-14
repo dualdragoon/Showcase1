@@ -16,12 +16,13 @@ namespace Showcase
     {
         int menuOption = 0;
 
-        Texture2D title, playButtonUnPressed, playButtonHovered, exitButtonUnpressed, exitButtonHovered;
+        Texture2D background, title, playButtonUnPressed, playButtonHovered, exitButtonUnpressed, exitButtonHovered;
 
         MenuButton playButton, exitButton;
 
         public void LoadContent(ContentManager Content)
         {
+            background = Content.Load<Texture2D>(@"Menu Buttons/Background");
             title = Content.Load<Texture2D>(@"Menu Buttons/Title");
             playButtonUnPressed = Content.Load<Texture2D>(@"Menu Buttons/Play Button Un-Pressed");
             playButtonHovered = Content.Load<Texture2D>(@"Menu Buttons/Play Button Hovered");
@@ -33,8 +34,8 @@ namespace Showcase
         {
             MouseState mouse = Mouse.GetState();
 
-            playButton = new MenuButton(415, 255, 150, 90, 1, mouse, playButtonUnPressed, playButtonHovered);
-            exitButton = new MenuButton(415, 380, 150, 90, 2, mouse, exitButtonUnpressed, exitButtonHovered);
+            playButton = new MenuButton(275, 315, 150, 90, 1, mouse, playButtonUnPressed, playButtonHovered);
+            exitButton = new MenuButton(618, 315, 150, 90, 2, mouse, exitButtonUnpressed, exitButtonHovered);
 
             if (playButton.getButtonState())
             {
@@ -50,6 +51,10 @@ namespace Showcase
             }
         }
 
+        /// <summary>
+        /// Determines what to do if a menu button is pressed.
+        /// </summary>
+        /// <returns></returns>
         public int detectGameState()
         {
             switch (menuOption)
@@ -70,7 +75,8 @@ namespace Showcase
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(title, new Vector2(250, 50), Color.White);
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
             spriteBatch.Draw(playButton.getTexture(), playButton.getRectangle(), Color.White);
             spriteBatch.Draw(exitButton.getTexture(), exitButton.getRectangle(), Color.White);
         }
@@ -84,6 +90,17 @@ namespace Showcase
         MouseState mouseState;
         Texture2D button0, button1, button2;
 
+        /// <summary>
+        /// Creates a new button for the menu.
+        /// </summary>
+        /// <param name="x">x value.</param>
+        /// <param name="y">y value.</param>
+        /// <param name="width">Width of button in pixels.</param>
+        /// <param name="height">Height of button in pixels.</param>
+        /// <param name="buttonNum">Number button uses to identify.</param>
+        /// <param name="mouse">Mouse state for detection.</param>
+        /// <param name="buttonNorm">Ordinary button state.</param>
+        /// <param name="buttonHov">Hovered button state.</param>
         public MenuButton(int x, int y, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
         {
             collision = new Rectangle(x, y, width, height);

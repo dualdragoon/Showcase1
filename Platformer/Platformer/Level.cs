@@ -458,25 +458,32 @@ namespace Showcase
         /// </summary>
         private void UpdateEnemies(GameTime gameTime)
         {
-            foreach (Enemy enemy in enemies)
+            if (enemies.Count > 0)
             {
-                enemy.Update(gameTime);
+                foreach (Enemy enemy in enemies)
+                {
+                    enemy.Update(gameTime);
 
-                // Touching an enemy instantly kills the player
-                if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && !Player.IsAttacking)
-                {
-                    OnPlayerKilled(enemy);
-                }
+                    // Touching an enemy instantly kills the player
+                    if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && !Player.IsAttacking)
+                    {
+                        OnPlayerKilled(enemy);
+                    }
 
-                if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
-                {
-                    OnPlayerAttack(enemy);
-                }
-                
-                if (!enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
-                {
-                    OnPlayerAttack(null);
-                }
+                    if (enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
+                    {
+                        OnPlayerAttack(enemy);
+                    }
+
+                    if (!enemy.BoundingRectangle.Intersects(Player.BoundingRectangle) && Player.IsAttacking)
+                    {
+                        OnPlayerAttack(null);
+                    }
+                } 
+            }
+            else if (Player.IsAttacking)
+            {
+                OnPlayerAttack(null);
             }
         }
 
@@ -573,9 +580,19 @@ namespace Showcase
                     Texture2D texture = tiles[x, y].Texture;
                     if (texture != null)
                     {
-                        // Draw it in screen space.
-                        Vector2 position = new Vector2(x, y) * Tile.Size;
-                        spriteBatch.Draw(texture, position, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0);
+                        if (texture == Content.Load<Texture2D>(@"Tiles/Exit"))
+                        {
+                            // Draws the exit upwards.
+                            Vector2 position = new Vector2(x, y) * Tile.Size;
+                            position += new Vector2(0, -39);
+                            spriteBatch.Draw(texture, position, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0);
+                        }
+                        else
+	                    {
+	                        // Draw it in screen space.
+                            Vector2 position = new Vector2(x, y) * Tile.Size;
+                            spriteBatch.Draw(texture, position, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0); 
+	                    }
                     }
                 }
             }

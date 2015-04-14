@@ -75,7 +75,7 @@ namespace Showcase
         {
             get { return isAttacking; }
         }
-        bool isAttacking;
+        bool isAttacking, wasAttacking;
 
         /// <summary>
         /// Current user movement input.
@@ -185,7 +185,6 @@ namespace Showcase
             // Clear input.
             movement = 0.0f;
             isJumping = false;
-            isAttacking = false;
         }
 
         /// <summary>
@@ -324,6 +323,21 @@ namespace Showcase
             return velocityY;
         }
 
+        private void DoAttack(Enemy hit)
+        {
+            if (isAttacking)
+            {
+                if (!wasJumping)
+                {
+                    if (hit != null)
+                        attackSound.Play();
+                    else
+                        missSound.Play();
+                }
+            }
+            wasAttacking = isAttacking;
+        }
+
         /// <summary>
         /// Detects and resolves all collisions between the player and his neighboring
         /// tiles. When a collision is detected, the player is pushed away along one
@@ -401,12 +415,9 @@ namespace Showcase
         /// </param>
         public void OnAttack(Enemy hit)
         {
-            /*if (hit != null)
-                attackSound.Play();
-            else
-                missSound.Play();*/
-
             sprite.PlayAnimation(celebrateAnimation);
+
+            DoAttack(hit);
         }
 
         /// <summary>
