@@ -31,6 +31,7 @@ namespace Showcase
         private bool wasContinuePressed;
 
         MainMenu mainMenu;
+        SettingsMenu settingsMenu;
 
         // When the time remaining is less than the warning time, it blinks on the hud
         private static readonly TimeSpan WarningTime = TimeSpan.FromSeconds(30);
@@ -46,14 +47,14 @@ namespace Showcase
         // or handle exceptions, both of which can add unnecessary time to level loading.
         private const int numberOfLevels = 4;
 
-        enum GameStates { MainMenu, Playing };
-        GameStates gameState = GameStates.MainMenu;
+        enum GameStates { MainMenu, Settings, Playing };
+        GameStates gameState = GameStates.Settings;
 
         public PlatformerGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            this.Window.Title = "Showcase";
+            this.Window.Title = "Greg's Adventure";
             graphics.PreferredBackBufferWidth = 1000;
             graphics.PreferredBackBufferHeight = 600;
         }
@@ -67,9 +68,13 @@ namespace Showcase
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Load Menu
+            // Load Main Menu
             mainMenu = new MainMenu();
             mainMenu.LoadContent(Content);
+
+            // Load Settings Menu
+            settingsMenu = new SettingsMenu();
+            settingsMenu.LoadContent(Content);
 
             // Load fonts
             hudFont = Content.Load<SpriteFont>("Fonts/Hud");
@@ -110,6 +115,31 @@ namespace Showcase
 
                     case 2:
                         Environment.Exit(1);
+                        break;
+
+                    case 3:
+                        gameState = GameStates.Settings;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            if (gameState == GameStates.Settings)
+            {
+                this.IsMouseVisible = true;
+
+                settingsMenu.Update(gameTime);
+
+                switch (settingsMenu.detectSettingsOption())
+                {
+                    case 1:
+
+                        break;
+
+                    case 2:
+                        gameState = GameStates.MainMenu;
                         break;
 
                     default:
@@ -205,6 +235,11 @@ namespace Showcase
             if (gameState == GameStates.MainMenu)
             {
                 mainMenu.Draw(spriteBatch);
+            }
+
+            if (gameState == GameStates.Settings)
+            {
+                settingsMenu.Draw(spriteBatch);
             }
 
             if (gameState == GameStates.Playing)

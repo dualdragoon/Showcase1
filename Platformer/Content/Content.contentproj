@@ -307,33 +307,33 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\Play Button Un-Pressed.png">
+    <Compile Include="Menu Images\Play Button Un-Pressed.png">
       <Name>Play Button Un-Pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\Play Button Hovered.png">
+    <Compile Include="Menu Images\Play Button Hovered.png">
       <Name>Play Button Hovered</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\Exit Button Hovered.png">
+    <Compile Include="Menu Images\Exit Button Hovered.png">
       <Name>Exit Button Hovered</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Menu Buttons\Exit Button Un-Pressed.png">
+    <Compile Include="Menu Images\Exit Button Un-Pressed.png">
       <Name>Exit Button Un-Pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\Title.png">
+    <Compile Include="Menu Images\Title.png">
       <Name>Title</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -361,7 +361,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu Buttons\Background.png">
+    <Compile Include="Menu Images\Background.png">
       <Name>Background</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -370,6 +370,30 @@
   <ItemGroup>
     <Compile Include="Tiles\Exit.png">
       <Name>Exit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu Images\Settings Button Hovered.png">
+      <Name>Settings Button Hovered</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Menu Images\Settings Button Un-Pressed.png">
+      <Name>Settings Button Un-Pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu Images\Back Button Hovered.png">
+      <Name>Back Button Hovered</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Menu Images\Back Button Un-Pressed.png">
+      <Name>Back Button Un-Pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

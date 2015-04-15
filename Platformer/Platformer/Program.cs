@@ -11,6 +11,7 @@ namespace Showcase
         {
             using (PlatformerGame game = new PlatformerGame())
             {
+                Console.Title = "Greg Debug";
                 game.Run();
             }
         }
