@@ -14,11 +14,15 @@ namespace Showcase
 {
     class MainMenu
     {
-        int menuOption = 0;
+        int mainMenuOption = 0, settingsMenuOption;
 
-        Texture2D background, title, playButtonUnPressed, playButtonHovered, exitButtonUnpressed, exitButtonHovered, settingsButtonUnpressed, settingsButtonHovered;
+        Texture2D background, title, playButtonUnPressed, playButtonHovered, exitButtonUnpressed, exitButtonHovered, settingsButtonUnpressed, settingsButtonHovered, 
+            backButtonUnpressed, backButtonHovered;
+        SpriteFont font;
 
-        MenuButton playButton, exitButton, settingsButton;
+        MouseState mouse;
+
+        MenuButton playButton, exitButton, settingsButton, backButton;
 
         public void LoadContent(ContentManager Content)
         {
@@ -30,11 +34,15 @@ namespace Showcase
             exitButtonHovered = Content.Load<Texture2D>(@"Menu Images/Exit Button Hovered");
             settingsButtonUnpressed = Content.Load<Texture2D>(@"Menu Images/Settings Button Un-Pressed");
             settingsButtonHovered = Content.Load<Texture2D>(@"Menu Images/Settings Button Hovered");
+            backButtonUnpressed = Content.Load<Texture2D>(@"Menu Images/Back Button Un-Pressed");
+            backButtonHovered = Content.Load<Texture2D>(@"Menu Images/Back Button Hovered");
+
+            font = Content.Load<SpriteFont>(@"Fonts/Hud");
         }
 
-        public void Update(GameTime gameTime)
+        public void UpdateMainMenu(GameTime gameTime)
         {
-            MouseState mouse = Mouse.GetState();
+            mouse = Mouse.GetState();
 
             playButton = new MenuButton(275, 315, 150, 90, 1, mouse, playButtonUnPressed, playButtonHovered);
             exitButton = new MenuButton(618, 315, 150, 90, 2, mouse, exitButtonUnpressed, exitButtonHovered);
@@ -42,19 +50,35 @@ namespace Showcase
 
             if (playButton.getButtonState())
             {
-                menuOption = playButton.getButtonNum();
+                mainMenuOption = playButton.getButtonNum();
             }
             else if (exitButton.getButtonState())
             {
-                menuOption = exitButton.getButtonNum();
+                mainMenuOption = exitButton.getButtonNum();
             }
             else if (settingsButton.getButtonState())
             {
-                menuOption = settingsButton.getButtonNum();
+                mainMenuOption = settingsButton.getButtonNum();
             }
             else
             {
-                menuOption = 0;
+                mainMenuOption = 0;
+            }
+        }
+
+        public void UpdateSettingsMenu(GameTime gameTime)
+        {
+            mouse = Mouse.GetState();
+
+            backButton = new MenuButton(10, 500, 150, 90, 2, mouse, backButtonUnpressed, backButtonHovered);
+
+            if (backButton.getButtonState())
+            {
+                settingsMenuOption = backButton.getButtonNum();
+            }
+            else
+            {
+                settingsMenuOption = 0;
             }
         }
 
@@ -64,7 +88,7 @@ namespace Showcase
         /// <returns></returns>
         public int detectGameState()
         {
-            switch (menuOption)
+            switch (mainMenuOption)
             {
                 case 1:
                     // Playing
@@ -84,58 +108,13 @@ namespace Showcase
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(background, Vector2.Zero, Color.White);
-            spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
-            spriteBatch.Draw(playButton.getTexture(), playButton.getRectangle(), Color.White);
-            spriteBatch.Draw(exitButton.getTexture(), exitButton.getRectangle(), Color.White);
-            spriteBatch.Draw(settingsButton.getTexture(), settingsButton.getRectangle(), Color.White);
-        }
-    }
-
-    class SettingsMenu
-    {
-        int menuOption = 0;
-
-        Texture2D background, title, backButtonUnpressed, backButtonHovered;
-        SpriteFont font;
-
-        MenuButton backButton;
-
-        public void LoadContent(ContentManager Content)
-        {
-            background = Content.Load<Texture2D>(@"Menu Images/Background");
-            title = Content.Load<Texture2D>(@"Menu Images/Title");
-            backButtonUnpressed = Content.Load<Texture2D>(@"Menu Images/Back Button Un-Pressed");
-            backButtonHovered = Content.Load<Texture2D>(@"Menu Images/Back Button Hovered");
-
-            font = Content.Load<SpriteFont>(@"Fonts/Hud");
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            MouseState mouse = Mouse.GetState();
-
-            backButton = new MenuButton(444, 450, 150, 90, 2, mouse, backButtonUnpressed, backButtonHovered);
-
-            if (backButton.getButtonState())
-            {
-                menuOption = backButton.getButtonNum();
-            }
-            else
-            {
-                menuOption = 0;
-            }
-        }
-
         /// <summary>
-        /// Determines what to do if a menu button is pressed.
+        /// Determines what to do if a settings button is pressed.
         /// </summary>
         /// <returns></returns>
         public int detectSettingsOption()
         {
-            switch (menuOption)
+            switch (settingsMenuOption)
             {
                 case 1:
 
@@ -151,13 +130,35 @@ namespace Showcase
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        /// <summary>
+        /// Draws the main menu background, title, and buttons.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public void DrawMainMenu(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
+            try
+            {
+                spriteBatch.Draw(playButton.getTexture(), playButton.getRectangle(), Color.White);
+                spriteBatch.Draw(exitButton.getTexture(), exitButton.getRectangle(), Color.White);
+                spriteBatch.Draw(settingsButton.getTexture(), settingsButton.getRectangle(), Color.White);
+            }
+            catch (NullReferenceException)
+            { }
+        }
+
+        /// <summary>
+        /// Draws the settings menu background, title, and buttons.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public void DrawSettingsMenu(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
             spriteBatch.Draw(backButton.getTexture(), backButton.getRectangle(), Color.White);
 
-            spriteBatch.DrawString(font, "Sorry, nothing here right now.", new Vector2(430, 470), Color.White);
+            spriteBatch.DrawString(font, "Sorry, nothing here right now.", new Vector2(520, 525), Color.White);
         }
     }
 

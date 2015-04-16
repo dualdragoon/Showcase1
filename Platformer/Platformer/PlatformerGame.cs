@@ -25,13 +25,13 @@ namespace Showcase
         private Texture2D loseOverlay;
         private Texture2D diedOverlay;
 
+
         // Meta-level game state.
         private int levelIndex = -1;
         private Level level;
         private bool wasContinuePressed;
 
-        MainMenu mainMenu;
-        SettingsMenu settingsMenu;
+        MainMenu menus;
 
         // When the time remaining is less than the warning time, it blinks on the hud
         private static readonly TimeSpan WarningTime = TimeSpan.FromSeconds(30);
@@ -48,7 +48,7 @@ namespace Showcase
         private const int numberOfLevels = 4;
 
         enum GameStates { MainMenu, Settings, Playing };
-        GameStates gameState = GameStates.Settings;
+        GameStates gameState = GameStates.MainMenu;
 
         public PlatformerGame()
         {
@@ -69,12 +69,8 @@ namespace Showcase
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load Main Menu
-            mainMenu = new MainMenu();
-            mainMenu.LoadContent(Content);
-
-            // Load Settings Menu
-            settingsMenu = new SettingsMenu();
-            settingsMenu.LoadContent(Content);
+            menus = new MainMenu();
+            menus.LoadContent(Content);
 
             // Load fonts
             hudFont = Content.Load<SpriteFont>("Fonts/Hud");
@@ -103,36 +99,39 @@ namespace Showcase
         {
             if (gameState == GameStates.MainMenu)
             {
+                menus.UpdateMainMenu(gameTime);
+
                 this.IsMouseVisible = true;
 
-                mainMenu.Update(gameTime);
-
-                switch (mainMenu.detectGameState())
+                if (true)
                 {
-                    case 1:
-                        gameState = GameStates.Playing;
-                        break;
+                    switch (menus.detectGameState())
+                    {
+                        case 1:
+                            gameState = GameStates.Playing;
+                            break;
 
-                    case 2:
-                        Environment.Exit(1);
-                        break;
+                        case 2:
+                            Environment.Exit(0);
+                            break;
 
-                    case 3:
-                        gameState = GameStates.Settings;
-                        break;
+                        case 3:
+                            gameState = GameStates.Settings;
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    } 
                 }
             }
 
             if (gameState == GameStates.Settings)
             {
+                menus.UpdateSettingsMenu(gameTime);
+
                 this.IsMouseVisible = true;
 
-                settingsMenu.Update(gameTime);
-
-                switch (settingsMenu.detectSettingsOption())
+                switch (menus.detectSettingsOption())
                 {
                     case 1:
 
@@ -159,7 +158,7 @@ namespace Showcase
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
-                    Environment.Exit(1);
+                    Environment.Exit(0);
                 }
             }
 
@@ -234,12 +233,12 @@ namespace Showcase
 
             if (gameState == GameStates.MainMenu)
             {
-                mainMenu.Draw(spriteBatch);
+                menus.DrawMainMenu(spriteBatch);
             }
 
             if (gameState == GameStates.Settings)
             {
-                settingsMenu.Draw(spriteBatch);
+                menus.DrawSettingsMenu(spriteBatch);
             }
 
             if (gameState == GameStates.Playing)
