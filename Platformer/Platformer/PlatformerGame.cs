@@ -31,7 +31,7 @@ namespace Showcase
         private Level level;
         private bool wasContinuePressed;
 
-        MainMenu menus;
+        Menus menus;
 
         // When the time remaining is less than the warning time, it blinks on the hud
         private static readonly TimeSpan WarningTime = TimeSpan.FromSeconds(30);
@@ -69,7 +69,7 @@ namespace Showcase
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load Main Menu
-            menus = new MainMenu();
+            menus = new Menus();
             menus.LoadContent(Content);
 
             // Load fonts

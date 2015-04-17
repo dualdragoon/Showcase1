@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Showcase
 {
-    class MainMenu
+    class Menus
     {
         int mainMenuOption = 0, settingsMenuOption;
 
