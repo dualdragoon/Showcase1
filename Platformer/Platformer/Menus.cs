@@ -70,8 +70,8 @@ namespace Showcase
         {
             mouse = Mouse.GetState();
 
-            backButton = new MenuButton(new Vector2(10, 500), 150, 90, 2, mouse, backButtonUnpressed, backButtonHovered);
-
+            backButton = new MenuButton(new Vector2(55, 545), 90, 2, mouse, backButtonUnpressed, backButtonHovered);
+                
             if (backButton.getButtonState())
             {
                 settingsMenuOption = backButton.getButtonNum();
@@ -156,7 +156,13 @@ namespace Showcase
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
-            spriteBatch.Draw(backButton.getTexture(), backButton.getPosition(), Color.White);
+
+            try
+            {
+                spriteBatch.Draw(backButton.getTexture(), backButton.getPosition(), Color.White);
+            }
+            catch (NullReferenceException)
+            { }
 
             spriteBatch.DrawString(font, "Sorry, nothing here right now.", new Vector2(520, 525), Color.White);
         }

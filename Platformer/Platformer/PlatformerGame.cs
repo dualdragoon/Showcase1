@@ -97,69 +97,69 @@ namespace Showcase
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (gameState == GameStates.MainMenu)
+            switch (gameState)
             {
-                menus.UpdateMainMenu(gameTime);
+                case GameStates.MainMenu:
+                    menus.UpdateMainMenu(gameTime);
 
-                this.IsMouseVisible = true;
+                    this.IsMouseVisible = true;
 
-                if (true)
-                {
-                    switch (menus.detectGameState())
+                        switch (menus.detectGameState())
+                        {
+                            case 1:
+                                gameState = GameStates.Playing;
+                                break;
+
+                            case 2:
+                                Environment.Exit(0);
+                                break;
+
+                            case 3:
+                                gameState = GameStates.Settings;
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                    break;
+
+                case GameStates.Settings:
+                    menus.UpdateSettingsMenu(gameTime);
+
+                    this.IsMouseVisible = true;
+
+                    switch (menus.detectSettingsOption())
                     {
                         case 1:
-                            gameState = GameStates.Playing;
+
                             break;
 
                         case 2:
-                            Environment.Exit(0);
-                            break;
-
-                        case 3:
-                            gameState = GameStates.Settings;
+                            gameState = GameStates.MainMenu;
                             break;
 
                         default:
                             break;
-                    } 
-                }
-            }
+                    }
 
-            if (gameState == GameStates.Settings)
-            {
-                menus.UpdateSettingsMenu(gameTime);
+                    break;
+            
+                case GameStates.Playing:
+                    this.IsMouseVisible = false;
 
-                this.IsMouseVisible = true;
+                    // Handle polling for our input and handling high-level input
+                    HandleInput();
 
-                switch (menus.detectSettingsOption())
-                {
-                    case 1:
+                    // update our level, passing down the GameTime along with all of our input states
+                    level.Update(gameTime, keyboardState, gamePadState, Window.CurrentOrientation);
 
-                        break;
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    {
+                        Environment.Exit(0);
+                    }
 
-                    case 2:
-                        gameState = GameStates.MainMenu;
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            if (gameState == GameStates.Playing)
-            {
-                this.IsMouseVisible = false;
-
-                // Handle polling for our input and handling high-level input
-                HandleInput();
-
-                // update our level, passing down the GameTime along with all of our input states
-                level.Update(gameTime, keyboardState, gamePadState, Window.CurrentOrientation);
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                {
-                    Environment.Exit(0);
-                }
+                    break;
             }
 
             base.Update(gameTime);
