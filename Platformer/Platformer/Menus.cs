@@ -44,9 +44,9 @@ namespace Showcase
         {
             mouse = Mouse.GetState();
 
-            playButton = new MenuButton(275, 315, 150, 90, 1, mouse, playButtonUnPressed, playButtonHovered);
-            exitButton = new MenuButton(618, 315, 150, 90, 2, mouse, exitButtonUnpressed, exitButtonHovered);
-            settingsButton = new MenuButton(444, 450, 150, 90, 3, mouse, settingsButtonUnpressed, settingsButtonHovered);
+            playButton = new MenuButton(new Vector2(275, 315), 150, 90, 1, mouse, playButtonUnPressed, playButtonHovered);
+            exitButton = new MenuButton(new Vector2(618, 315), 150, 90, 2, mouse, exitButtonUnpressed, exitButtonHovered);
+            settingsButton = new MenuButton(new Vector2(444, 450), 150, 90, 3, mouse, settingsButtonUnpressed, settingsButtonHovered);
 
             if (playButton.getButtonState())
             {
@@ -70,7 +70,7 @@ namespace Showcase
         {
             mouse = Mouse.GetState();
 
-            backButton = new MenuButton(10, 500, 150, 90, 2, mouse, backButtonUnpressed, backButtonHovered);
+            backButton = new MenuButton(new Vector2(10, 500), 150, 90, 2, mouse, backButtonUnpressed, backButtonHovered);
 
             if (backButton.getButtonState())
             {
@@ -140,9 +140,9 @@ namespace Showcase
             spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
             try
             {
-                spriteBatch.Draw(playButton.getTexture(), playButton.getRectangle(), Color.White);
-                spriteBatch.Draw(exitButton.getTexture(), exitButton.getRectangle(), Color.White);
-                spriteBatch.Draw(settingsButton.getTexture(), settingsButton.getRectangle(), Color.White);
+                spriteBatch.Draw(playButton.getTexture(), playButton.getPosition(), Color.White);
+                spriteBatch.Draw(exitButton.getTexture(), exitButton.getPosition(), Color.White);
+                spriteBatch.Draw(settingsButton.getTexture(), settingsButton.getPosition(), Color.White);
             }
             catch (NullReferenceException)
             { }
@@ -156,7 +156,7 @@ namespace Showcase
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
-            spriteBatch.Draw(backButton.getTexture(), backButton.getRectangle(), Color.White);
+            spriteBatch.Draw(backButton.getTexture(), backButton.getPosition(), Color.White);
 
             spriteBatch.DrawString(font, "Sorry, nothing here right now.", new Vector2(520, 525), Color.White);
         }
@@ -164,49 +164,105 @@ namespace Showcase
 
     class MenuButton
     {
+        enum ButtonType { Rectangle, Circle };
+
         bool buttonState;
+        float diameter;
         int bNum;
+        ButtonType type;
         Rectangle collision;
         MouseState mouseState;
         Texture2D button0, button1, button2;
+        Vector2 center;
 
         /// <summary>
         /// Creates a new button for the menu.
         /// </summary>
-        /// <param name="x">x value.</param>
-        /// <param name="y">y value.</param>
+        /// <param name="position">Position of top left corner.</param>
         /// <param name="width">Width of button in pixels.</param>
         /// <param name="height">Height of button in pixels.</param>
         /// <param name="buttonNum">Number button uses to identify.</param>
         /// <param name="mouse">Mouse state for detection.</param>
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
-        public MenuButton(int x, int y, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
+        public MenuButton(Vector2 position, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
         {
-            collision = new Rectangle(x, y, width, height);
+            collision = new Rectangle((int)position.X, (int)position.Y, width, height);
             mouseState = mouse;
             button1 = buttonNorm;
             button2 = buttonHov;
             bNum = buttonNum;
+            type = ButtonType.Rectangle;
+        }
+
+        /// <summary>
+        /// Creates a new circular button for the menu.
+        /// </summary>
+        /// <param name="centerPosition">The center position of the circle.</param>
+        /// <param name="cirlceRadius">The radius of the circle.</param>
+        /// <param name="buttonNum">Number button uses to identify.</param>
+        /// <param name="mouse">Mouse state for detection.</param>
+        /// <param name="buttonNorm">Ordinary button state.</param>
+        /// <param name="buttonHov">Hovered button state.</param>
+        public MenuButton(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
+        {
+            center = centerPosition;
+            diameter = circleDiameter;
+            mouseState = mouse;
+            button1 = buttonNorm;
+            button2 = buttonHov;
+            bNum = buttonNum;
+            type = ButtonType.Circle;
         }
 
         public bool getButtonState()
         {
-            if (collision.Contains(mouseState.X, mouseState.Y))
+            switch(type)
             {
-                button0 = button2;
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    buttonState = true;
-                }
+                case ButtonType.Rectangle:
+                    if (collision.Contains(mouseState.X, mouseState.Y))
+                    {
+                        button0 = button2;
+                        if (mouseState.LeftButton == ButtonState.Pressed)
+                        {
+                            buttonState = true;
+                        }
+                    }
+                    else
+                    {
+                        button0 = button1;
+                        buttonState = false;
+                    }
+                    return buttonState;
+                case ButtonType.Circle:
+                    if (Intersects())
+                    {
+                        button0 = button2;
+                        if (mouseState.LeftButton == ButtonState.Pressed)
+                        {
+                            buttonState = true;
+                        }
+                    }
+                    else
+                    {
+                        button0 = button1;
+                        buttonState = false;
+                    }
+                    return buttonState;
+                default:
+                    return buttonState;
             }
-            else
-            {
-                button0 = button1;
-                buttonState = false;
-            }
+        }
 
-            return buttonState;
+        private bool Intersects()
+        {
+            Vector2 v = new Vector2(MathHelper.Clamp(center.X, mouseState.X, mouseState.X),
+                                    MathHelper.Clamp(center.Y, mouseState.Y, mouseState.Y));
+
+            Vector2 direction = center - v;
+            float distanceSquared = direction.LengthSquared();
+
+            return ((distanceSquared > 0) && (distanceSquared < (diameter / 2) * (diameter / 2)));
         }
 
         public int getButtonNum()
@@ -214,9 +270,17 @@ namespace Showcase
             return bNum;
         }
 
-        public Rectangle getRectangle()
+        public Vector2 getPosition()
         {
-            return collision;
+            switch (type)
+            { 
+                case ButtonType.Circle:
+                    return center - new Vector2(diameter / 2);
+                case ButtonType.Rectangle:
+                    return new Vector2(collision.X, collision.Y);
+                default:
+                    return Vector2.Zero;
+            }
         }
 
         public Texture2D getTexture()
