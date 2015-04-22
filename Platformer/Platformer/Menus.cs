@@ -16,7 +16,7 @@ namespace Showcase
     {
         int mainMenuOption = 0, settingsMenuOption;
 
-        Texture2D background, title, playButtonUnPressed, playButtonHovered, exitButtonUnpressed, exitButtonHovered, settingsButtonUnpressed, settingsButtonHovered, 
+        Texture2D background, title, playButtonUnPressed, playButtonHovered, exitButtonUnpressed, exitButtonHovered, settingsButtonUnpressed, settingsButtonHovered,
             backButtonUnpressed, backButtonHovered;
         SpriteFont font;
 
@@ -71,7 +71,7 @@ namespace Showcase
             mouse = Mouse.GetState();
 
             backButton = new MenuButton(new Vector2(55, 545), 90, 2, mouse, backButtonUnpressed, backButtonHovered);
-                
+
             if (backButton.getButtonState())
             {
                 settingsMenuOption = backButton.getButtonNum();
@@ -223,7 +223,7 @@ namespace Showcase
 
         public bool getButtonState()
         {
-            switch(type)
+            switch (type)
             {
                 case ButtonType.Rectangle:
                     if (collision.Contains(mouseState.X, mouseState.Y))
@@ -240,6 +240,7 @@ namespace Showcase
                         buttonState = false;
                     }
                     return buttonState;
+
                 case ButtonType.Circle:
                     if (Intersects())
                     {
@@ -255,6 +256,7 @@ namespace Showcase
                         buttonState = false;
                     }
                     return buttonState;
+
                 default:
                     return buttonState;
             }
@@ -279,7 +281,7 @@ namespace Showcase
         public Vector2 getPosition()
         {
             switch (type)
-            { 
+            {
                 case ButtonType.Circle:
                     return center - new Vector2(diameter / 2);
                 case ButtonType.Rectangle:

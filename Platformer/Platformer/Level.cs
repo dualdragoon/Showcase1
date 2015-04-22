@@ -550,7 +550,7 @@ namespace Showcase
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             for (int i = 0; i <= EntityLayer; ++i)
-                spriteBatch.Draw(layers[i], Vector2.Zero, Color.White);
+                spriteBatch.Draw(layers[i], Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0);
 
             DrawTiles(spriteBatch);
 
@@ -563,7 +563,7 @@ namespace Showcase
                 enemy.Draw(gameTime, spriteBatch);
 
             for (int i = EntityLayer + 1; i < layers.Length; ++i)
-                spriteBatch.Draw(layers[i], Vector2.Zero, Color.White);
+                spriteBatch.Draw(layers[i], Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0);
         }
 
         /// <summary>
