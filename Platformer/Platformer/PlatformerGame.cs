@@ -231,21 +231,25 @@ namespace Showcase
 
             spriteBatch.Begin();
 
-            if (gameState == GameStates.MainMenu)
-            {
-                menus.DrawMainMenu(spriteBatch);
-            }
 
-            if (gameState == GameStates.Settings)
-            {
-                menus.DrawSettingsMenu(spriteBatch);
-            }
+            switch (gameState)
+            { 
+                case GameStates.MainMenu:
+                    menus.DrawMainMenu(spriteBatch);
+                    break;
 
-            if (gameState == GameStates.Playing)
-            {
-                level.Draw(gameTime, spriteBatch);
+                case GameStates.Settings:
+                    menus.DrawSettingsMenu(spriteBatch);
+                    break;
 
-                DrawHud();
+                case GameStates.Playing:
+                    level.Draw(gameTime, spriteBatch);
+
+                    DrawHud();
+                    break;
+
+                default:
+                    break;
             }
 
             spriteBatch.End();

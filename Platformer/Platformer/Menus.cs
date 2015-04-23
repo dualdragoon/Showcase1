@@ -138,6 +138,8 @@ namespace Showcase
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
+
+            // Keeps problem with button not having been updated from occurring.
             try
             {
                 spriteBatch.Draw(playButton.getTexture(), playButton.getPosition(), Color.White);
@@ -157,6 +159,7 @@ namespace Showcase
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.Draw(title, new Vector2(290, 10), null, Color.White, 0, Vector2.Zero, 0.85f, SpriteEffects.None, 0);
 
+            // Keeps problem with button not having been updated from occurring.
             try
             {
                 spriteBatch.Draw(backButton.getTexture(), backButton.getPosition(), Color.White);

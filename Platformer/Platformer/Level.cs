@@ -223,6 +223,10 @@ namespace Showcase
                 case '~':
                     return LoadVarietyTile("BlockB", 2, TileCollision.Platform);
 
+                // Reverse Platform block
+                case 'Z':
+                    return LoadVarietyTile("BlockB", 2, TileCollision.ReversePlatform);
+
                 // Passable block
                 case ':':
                     return LoadVarietyTile("BlockB", 2, TileCollision.Passable);

@@ -26,6 +26,12 @@ namespace Showcase
         /// past it to the left and right, but can not fall down through the top of it.
         /// </summary>
         Platform = 2,
+
+        /// <summary>
+        /// A reverse platform tile is one which behaves like a passable tile except when the
+        /// player is below it. A player can fall through a platform but can not jump up through the bottom of it.
+        /// </summary>
+        ReversePlatform = 3,
     }
 
     /// <summary>

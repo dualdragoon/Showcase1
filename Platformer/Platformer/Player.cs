@@ -377,8 +377,10 @@ namespace Showcase
                             if (absDepthY < absDepthX || collision == TileCollision.Platform)
                             {
                                 // If we crossed the top of a tile, we are on the ground.
-                                if (previousBottom <= tileBounds.Top)
+                                if (previousBottom <= tileBounds.Top && collision != TileCollision.ReversePlatform)
                                     isOnGround = true;
+                                else if (previousBottom <= tileBounds.Top && collision == TileCollision.ReversePlatform)
+                                    isOnGround = false;
 
                                 // Ignore platforms, unless we are on the ground.
                                 if (collision == TileCollision.Impassable || IsOnGround)
