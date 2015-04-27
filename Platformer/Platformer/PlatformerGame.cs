@@ -21,13 +21,13 @@ namespace Showcase
         // Global content.
         private SpriteFont hudFont;
 
-        private Texture2D winOverlay;
-        private Texture2D loseOverlay;
-        private Texture2D diedOverlay;
+        private Texture2D winOverlay, loseOverlay, diedOverlay;
+
+        private Song titleMusic, levelMusic;
 
 
         // Meta-level game state.
-        private int levelIndex = -1;
+        private int levelIndex = -1, dummy = 0;
         private Level level;
         private bool wasContinuePressed;
 
@@ -80,12 +80,8 @@ namespace Showcase
             loseOverlay = Content.Load<Texture2D>("Overlays/you_lose");
             diedOverlay = Content.Load<Texture2D>("Overlays/you_died");
 
-            try
-            {
-                MediaPlayer.IsRepeating = true;
-                MediaPlayer.Play(Content.Load<Song>("Sounds/Music"));
-            }
-            catch { }
+            titleMusic = Content.Load<Song>("Sounds/Title Music");
+            levelMusic = Content.Load<Song>("Sounds/Stage Music");
 
             LoadNextLevel();
         }
@@ -100,6 +96,14 @@ namespace Showcase
             switch (gameState)
             {
                 case GameStates.MainMenu:
+                    if (dummy == 0)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Play(titleMusic);
+                        MediaPlayer.Volume = .25f;
+                        dummy = 1;
+                    }
+
                     menus.UpdateMainMenu(gameTime);
 
                     this.IsMouseVisible = true;
@@ -107,6 +111,8 @@ namespace Showcase
                         switch (menus.detectGameState())
                         {
                             case 1:
+                                MediaPlayer.Stop();
+                                dummy = 0;
                                 gameState = GameStates.Playing;
                                 break;
 
@@ -115,6 +121,8 @@ namespace Showcase
                                 break;
 
                             case 3:
+                                MediaPlayer.Stop();
+                                dummy = 0;
                                 gameState = GameStates.Settings;
                                 break;
 
@@ -125,6 +133,14 @@ namespace Showcase
                     break;
 
                 case GameStates.Settings:
+                    if (dummy == 0)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Play(titleMusic);
+                        MediaPlayer.Volume = .25f;
+                        dummy = 1;
+                    }
+
                     menus.UpdateSettingsMenu(gameTime);
 
                     this.IsMouseVisible = true;
@@ -136,6 +152,8 @@ namespace Showcase
                             break;
 
                         case 2:
+                            MediaPlayer.Stop();
+                            dummy = 0;
                             gameState = GameStates.MainMenu;
                             break;
 
@@ -146,6 +164,14 @@ namespace Showcase
                     break;
             
                 case GameStates.Playing:
+                    if (dummy == 0)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Play(levelMusic);
+                        MediaPlayer.Volume = .25f;
+                        dummy = 1;
+                    }
+
                     this.IsMouseVisible = false;
 
                     // Handle polling for our input and handling high-level input
