@@ -224,9 +224,9 @@ namespace Showcase
                 keyboardState.IsKeyDown(Keys.W);
 
             // Check if the player wants to attack.
-            isAttacking =
+            /*isAttacking =
                 gamePadState.IsButtonDown(AttackButton) ||
-                keyboardState.IsKeyDown(Keys.E);
+                keyboardState.IsKeyDown(Keys.E);*/
         }
 
         /// <summary>

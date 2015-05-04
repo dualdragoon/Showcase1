@@ -146,7 +146,7 @@ namespace Showcase
                 spriteBatch.Draw(exitButton.getTexture(), exitButton.getPosition(), Color.White);
                 spriteBatch.Draw(settingsButton.getTexture(), settingsButton.getPosition(), Color.White);
             }
-            catch (NullReferenceException)
+            catch
             { }
         }
 
@@ -164,25 +164,69 @@ namespace Showcase
             {
                 spriteBatch.Draw(backButton.getTexture(), backButton.getPosition(), Color.White);
             }
-            catch (NullReferenceException)
+            catch
             { }
 
             spriteBatch.DrawString(font, "Sorry, nothing here right now.", new Vector2(520, 525), Color.White);
         }
     }
 
-    class MenuButton
+    struct MenuButton
     {
-        enum ButtonType { Rectangle, Circle };
+        public enum ButtonType { Rectangle, Circle };
 
-        bool buttonState;
-        float diameter;
-        int bNum;
-        ButtonType type;
-        Rectangle collision;
-        MouseState mouseState;
-        Texture2D button0, button1, button2;
-        Vector2 center;
+        public bool buttonState { get; private set; }
+        public float diameter { get; private set; }
+        public int bNum { get; private set; }
+        public ButtonType type { get; private set; }
+        public MouseState mouseState { get; private set; }
+        public Texture2D button0 { get; private set; }
+
+        /// <summary>
+        /// Backing Store for Collision
+        /// </summary>
+        private Rectangle collision;
+
+        /// <summary>
+        /// Rectangle Location
+        /// </summary>
+        public Rectangle Collision
+        {
+            get { return collision; }
+            set { collision = value; }
+        }
+
+        /// <summary>
+        /// Backing Stores for textures.
+        /// </summary>
+        private Texture2D button1, button2;
+
+        /// <summary>
+        /// Set Unpressed Button Texture.
+        /// </summary>
+        public Texture2D UnpressedButton
+        {
+            set { button1 = value; }
+        }
+
+        /// <summary>
+        /// Set Hovered Button Texture.
+        /// </summary>
+        public Texture2D HoveredButton
+        {
+            set { button2 = value; }
+        }
+
+        /// <summary>
+        /// Backing Store for Center of circle.
+        /// </summary>
+        private Vector2 center;
+
+        public Vector2 Center
+        {
+            get { return center; }
+            set { center = value; }
+        }
 
         /// <summary>
         /// Creates a new button for the menu.
@@ -195,7 +239,9 @@ namespace Showcase
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
         public MenuButton(Vector2 position, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
+            : this()
         {
+            center = Vector2.Zero;
             collision = new Rectangle((int)position.X, (int)position.Y, width, height);
             mouseState = mouse;
             button1 = buttonNorm;
@@ -214,7 +260,9 @@ namespace Showcase
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
         public MenuButton(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
+            : this()
         {
+            collision = Rectangle.Empty;
             center = centerPosition;
             diameter = circleDiameter;
             mouseState = mouse;
@@ -288,7 +336,7 @@ namespace Showcase
                 case ButtonType.Circle:
                     return center - new Vector2(diameter / 2);
                 case ButtonType.Rectangle:
-                    return new Vector2(collision.X, collision.Y);
+                    return new Vector2(Collision.X, Collision.Y);
                 default:
                     return Vector2.Zero;
             }

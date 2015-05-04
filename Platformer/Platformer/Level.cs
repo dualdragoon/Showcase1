@@ -80,7 +80,7 @@ namespace Showcase
         }
         ContentManager content;
 
-        private SoundEffect exitReachedSound;
+        //private SoundEffect exitReachedSound;
 
         #region Loading
 
@@ -117,7 +117,7 @@ namespace Showcase
             }
 
             // Load sounds.
-            exitReachedSound = Content.Load<SoundEffect>("Sounds/ExitReached");
+            //exitReachedSound = Content.Load<SoundEffect>("Sounds/ExitReached");
         }
 
         /// <summary>
@@ -532,7 +532,7 @@ namespace Showcase
         private void OnExitReached()
         {
             Player.OnReachedExit();
-            exitReachedSound.Play();
+            //exitReachedSound.Play();
             reachedExit = true;
         }
 
