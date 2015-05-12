@@ -173,14 +173,14 @@ namespace Showcase
 
     struct MenuButton
     {
-        public enum ButtonType { Rectangle, Circle };
+        private enum ButtonType { Rectangle, Circle };
 
-        public bool buttonState { get; private set; }
-        public float diameter { get; private set; }
-        public int bNum { get; private set; }
-        public ButtonType type { get; private set; }
-        public MouseState mouseState { get; private set; }
-        public Texture2D button0 { get; private set; }
+        private bool buttonState { get; set; }
+        private float diameter { get; set; }
+        private int bNum { get; set; }
+        private ButtonType type { get; set; }
+        private MouseState mouseState { get; set; }
+        private Texture2D button0 { get; set; }
 
         /// <summary>
         /// Backing Store for Collision
