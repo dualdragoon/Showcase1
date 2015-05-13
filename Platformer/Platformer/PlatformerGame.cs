@@ -121,8 +121,6 @@ namespace Showcase
                                 break;
 
                             case 3:
-                                MediaPlayer.Stop();
-                                dummy = 0;
                                 gameState = GameStates.Settings;
                                 break;
 
@@ -133,14 +131,6 @@ namespace Showcase
                     break;
 
                 case GameStates.Settings:
-                    if (dummy == 0)
-                    {
-                        MediaPlayer.IsRepeating = true;
-                        MediaPlayer.Play(titleMusic);
-                        MediaPlayer.Volume = .25f;
-                        dummy = 1;
-                    }
-
                     menus.UpdateSettingsMenu(gameTime);
 
                     this.IsMouseVisible = true;
@@ -152,8 +142,6 @@ namespace Showcase
                             break;
 
                         case 2:
-                            MediaPlayer.Stop();
-                            dummy = 0;
                             gameState = GameStates.MainMenu;
                             break;
 
