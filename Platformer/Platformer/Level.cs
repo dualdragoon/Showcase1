@@ -104,15 +104,11 @@ namespace Showcase
 
             // Load background layer textures. For now, all levels must
             // use the same backgrounds and only use the left-most part of them.
-            layers = new Texture2D[3];
+            layers = new Texture2D[1];
             for (int i = 0; i < layers.Length; ++i)
             {
                 // Choose a random segment if each background layer for level variety.
-                int segmentIndex = levelIndex;
-                if (segmentIndex > 2)
-                {
-                    segmentIndex = 0;
-                }
+                int segmentIndex = 0;
                 layers[i] = Content.Load<Texture2D>("Backgrounds/Layer" + i + "_" + segmentIndex);
             }
 
@@ -553,8 +549,7 @@ namespace Showcase
         /// </summary>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            for (int i = 0; i <= EntityLayer; ++i)
-                spriteBatch.Draw(layers[i], Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0);
+            spriteBatch.Draw(layers[0], Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0);
 
             DrawTiles(spriteBatch);
 
@@ -565,9 +560,6 @@ namespace Showcase
 
             foreach (Enemy enemy in enemies)
                 enemy.Draw(gameTime, spriteBatch);
-
-            for (int i = EntityLayer + 1; i < layers.Length; ++i)
-                spriteBatch.Draw(layers[i], Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1.25f, SpriteEffects.None, 0);
         }
 
         /// <summary>
